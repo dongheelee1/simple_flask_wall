@@ -1,0 +1,35 @@
+<html>
+<head>
+	<title>Success Page</title>
+</head>
+<body>
+	<h1>Welcome to the Coding Dojo Wall!</h1>
+	<div id="post_message">
+		<p>Post a message!</p>
+		<form action="/post_message" method="post">
+			<textarea name="message"></textarea>
+			<input type="submit" value="Post a message">
+		</form>
+	</div>
+	<div id="messages">
+		{% if messages %}
+			{% for message in messages %}
+				<h3>{{message['first_name']}} {{message['last_name']}} - {{message['created_at']}}</h3>
+				<p>{{message['message']}}</p>
+				{% if comments %}
+					{% for comment in comments %}
+						{% if message['message_id'] == comment['comment_message_id']%}
+							<h5>{{comment['first_name']}} {{comment['last_name']}} - {{comment['created_at']}}</h5>
+							<i><p>{{comment['comment']}}</p></i>
+						{% endif%}
+					{% endfor %}
+				{% endif %}
+				<form action="/post_comment/{{message['message_id']}}" method="post">
+					<textarea name="comment"></textarea>
+					<input type="submit" value="Post a comment">
+				</form>
+			{% endfor %}
+		{% endif %}
+	</div>
+</body>
+</html>
